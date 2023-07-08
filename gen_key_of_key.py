@@ -1,11 +1,13 @@
-import sys
-from get_key import get_hashed_secret, check_secret
+import sys, os
+from pathlib import Path
+from modules.get_key import get_hashed_secret, check_secret
 from fernet_w_pass import password_encrypt
 
 def _gen_key_of_key(passed_check, secret):
     if passed_check:
         key = b''
-        with open("kok", "rb") as f:
+        path = Path(os.path.join("db", "info", "kok"))
+        with open(path, "rb") as f:
             for line in f.readlines():
                 # If new key of key is to be generated,
                 # kok has to contain the original key
@@ -25,9 +27,6 @@ def main():
 
     print("\nHere is your key of key:")
     print(_gen_key_of_key(passed_check, secret), "\n")
-    print("[**] Remember your password well.")
-    print("There is no recovery measure for now.")
-    print("")
 
 if __name__ == '__main__':
     main()
