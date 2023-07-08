@@ -1,3 +1,8 @@
+"""
+Copyright (C) 2023  Aranggi J. Toar <at@aranggitoar.com>
+Full GPL-3.0 notice https://www.gnu.org/licenses/gpl-3.0.txt
+"""
+
 import sys, os
 from pathlib import Path
 from modules.get_key import get_hashed_secret, check_secret

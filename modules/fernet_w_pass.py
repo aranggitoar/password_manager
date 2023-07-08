@@ -1,8 +1,6 @@
 """
-
 This file is courtesy of Martijn Pieters,
 https://stackoverflow.com/questions/2490334/simple-way-to-encode-a-string-according-to-a-password
-
 """
 
 from hashlib import pbkdf2_hmac
