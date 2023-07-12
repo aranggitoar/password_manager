@@ -22,7 +22,7 @@ you can start creating, modifying, and retrieving passwords. For now it will
 always ask for your master password on every creation, modification, and
 retrieval.
 
-<img alt="Demo of the application." src="./demo.gif" width="80%"/>
+<img alt="Demo of the application." src="./demo.gif" width="65%"/>
 
 (The demo and the current application might differ a little bit.)
 
