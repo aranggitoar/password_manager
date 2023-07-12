@@ -7,7 +7,7 @@ from modules.encryption import password_decrypt
 from modules.paths import SECRETS_DIR, ENC_PASS_FILE, ENC_PASS_KEY_FILE
 
 
-def get():
+def get() -> bytes:
     with open(ENC_PASS_KEY_FILE, "rb") as f:
         content = f.read()
         f.close()

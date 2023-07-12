@@ -1,8 +1,12 @@
-import os, sys, datetime, threading, time, signal
+"""
+Copyright (C) 2023  Aranggi J. Toar <at@aranggitoar.com>
+Full GPL-3.0 notice https://www.gnu.org/licenses/gpl-3.0.txt
+"""
+
+import sys, os, threading
 import modules.master_password as mp
-from modules.paths import ETC_DIR, DB_DIR
 import modules.password as password
-import modules.art as art
+from modules.paths import ETC_DIR, DB_DIR
 
 # Clear console
 _cc = lambda: os.system("cls" if os.name == "nt" else "clear")
@@ -20,7 +24,7 @@ def _exit():
     sys.exit(0)
 
 
-def _timeoutInput(prompt):
+def _timeoutInput(prompt: str) -> str:
     timeout = 60
     t = threading.Timer(timeout, _timeoutCleanup, [True])
     t.start()
@@ -46,7 +50,7 @@ def _timeoutCleanup(hard_exit=False):
     sys.exit(0)
 
 
-def _password_name_search():
+def _password_name_search() -> str:
     print("What is the name of the password?")
     print("\t(You can search for part of the password.)")
     name = input("> ")
@@ -95,19 +99,16 @@ COMMANDS = {
 }
 
 
-def login():
+def login() -> bool:
     print("""
 
-░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-░   ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-▒   ▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒  ▒▒▒▒▒▒▒▒▒▒
-▒   ▒▒▒▒▒▒▒▒▒▒▒   ▒▒▒▒▒▒     ▒▒▒▒▒▒▒   ▒   ▒▒
-▓   ▓▓▓▓▓▓▓▓▓   ▓▓   ▓▓   ▓▓   ▓   ▓▓   ▓▓   
-▓   ▓▓▓▓▓▓▓▓   ▓▓▓▓   ▓  ▓▓▓   ▓   ▓▓   ▓▓   
-▓   ▓▓▓▓▓▓▓▓▓   ▓▓   ▓▓    ▓   ▓   ▓▓   ▓▓   
-█          ████   █████████   ██   █    ██   
-█████████████████████████    ████████████████
-
+  ▀██▀                       ██           
+   ██         ▄▄▄     ▄▄▄ ▄ ▄▄▄  ▄▄ ▄▄▄   
+   ██       ▄█  ▀█▄  ██ ██   ██   ██  ██  
+   ██       ██   ██   █▀▀    ██   ██  ██  
+  ▄██▄▄▄▄▄█  ▀█▄▄█▀  ▀████▄ ▄██▄ ▄██▄ ██▄ 
+                    ▄█▄▄▄▄▀               
+                                        
           """)
     master_password = input("Enter your master password:\n> ")
     return mp.verify(master_password)
@@ -123,21 +124,22 @@ def setup():
           """)
     new_master_password = input("Enter your new master password:\n> ")
     mp.create(new_master_password)
+    del new_master_password
 
 
-def alert_no_master_password():
+def alert_no_master_password() -> str:
     print("""
 
-░█▀▀▄░█░░█▀▀░█▀▀▄░▀█▀
-▒█▄▄█░█░░█▀▀░█▄▄▀░░█░
-▒█░▒█░▀▀░▀▀▀░▀░▀▀░░▀░
+ ░█▀▀▄░█░░█▀▀░█▀▀▄░▀█▀
+ ▒█▄▄█░█░░█▀▀░█▄▄▀░░█░
+ ▒█░▒█░▀▀░▀▀▀░▀░▀▀░░▀░
 
           """)
     print("There is no master password ", end="")
     return input("set yet, create one? (y/n)\n> ")
 
 
-def password_creation():
+def password_creation() -> str, int, str:
     print("""
 
 ░▒█▀▀█░█▀▀▄░█▀▀░█▀▀░█░░░█░▄▀▀▄░█▀▀▄░█▀▄░░░▒█▀▀▄░█▀▀▄░█▀▀░█▀▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄
@@ -160,7 +162,7 @@ def password_creation():
     return name, int(length), master_password
 
 
-def password_retrieval():
+def password_retrieval() -> str, str:
     print("""
 
 ░▒█▀▀█░█▀▀▄░█▀▀░█▀▀░█░░░█░▄▀▀▄░█▀▀▄░█▀▄░░░▒█▀▀▄░█▀▀░▀█▀░█▀▀▄░░▀░░█▀▀░▄░░░▄░█▀▀▄░█░
@@ -179,7 +181,7 @@ def password_retrieval():
     return name, master_password
 
 
-def password_modification():
+def password_modification() -> str, str, str, str:
     print("""
 
 ░▒█▀▀█░█▀▀▄░█▀▀░█▀▀░█░░░█░▄▀▀▄░█▀▀▄░█▀▄░░░▒█▀▄▀█░▄▀▀▄░█▀▄░░▀░░█▀▀░░▀░░█▀▄░█▀▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄
@@ -243,7 +245,7 @@ def main_menu_loop():
             timeout = True
 
 
-def failed_login():
+def failed_login() -> str:
     print("\nWrong password.")
     return input("Try again? (y/n)\n> ")
 

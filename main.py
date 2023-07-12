@@ -1,4 +1,9 @@
-import os, sys
+"""
+Copyright (C) 2023  Aranggi J. Toar <at@aranggitoar.com>
+Full GPL-3.0 notice https://www.gnu.org/licenses/gpl-3.0.txt
+"""
+
+import os
 import modules.prompts as prompts
 from modules.encryption import password_encrypt, password_decrypt
 from modules.paths import DB_DIR, SECRETS_DIR, ETC_DIR, ENC_PASS_FILE

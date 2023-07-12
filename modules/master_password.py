@@ -1,19 +1,30 @@
-import modules.password as p
+"""
+Copyright (C) 2023  Aranggi J. Toar <at@aranggitoar.com>
+Full GPL-3.0 notice https://www.gnu.org/licenses/gpl-3.0.txt
+"""
+
+import hashlib
+from modules.password import generate
 from modules.encryption import password_encrypt, password_decrypt
 from modules.paths import ENC_PASS_FILE, ENC_PASS_KEY_FILE
 
 
-def create(password):
-    password_key = p.generate(64)
+def create(password: str):
+    password_key = generate(64)
     print("Generating random key for master password encryption ...")
 
-    encrypted_password = password_encrypt(password.encode(), password_key)
-    print("Encrypting master password ...")
+    sha3_512 = hashlib.sha3_512()
+    sha3_512.update(password.encode())
+    hashed_password = sha3_512.hexdigest()
+    print("Creating hash of master password ...")
+
+    encrypted_password = password_encrypt(hashed_password.encode(), password_key)
+    print("Encrypting hash of master password ...")
 
     file = open(ENC_PASS_FILE, "wb")
     file.write(encrypted_password)
     file.close()
-    print("Storing encrypted master password ...")
+    print("Storing encrypted hash of master password ...")
 
     encrypted_password_key = password_encrypt(password_key.encode(),
                                               encrypted_password.decode())
@@ -31,7 +42,7 @@ def create(password):
     print("New master password successfully created!")
 
 
-def verify(user_input):
+def verify(user_input: str) -> bool:
     with open(ENC_PASS_KEY_FILE, "rb") as f:
         content = f.read()
         f.close()
@@ -42,14 +53,18 @@ def verify(user_input):
         content = f.read()
         f.close()
     encrypted_password = content
-    print("Retrieving encrypted master password ...")
+    print("Retrieving encrypted hash of master password ...")
 
     decrypted_key = password_decrypt(encrypted_password_key,
                                      encrypted_password.decode())
     print("Decrypting master password key ...")
     decrypted_password = password_decrypt(encrypted_password,
                                           decrypted_key.decode())
-    print("Decrypting master password ...")
+    print("Decrypting hash of master password ...")
 
-    print("Checking if entered password is correct ...")
-    return user_input == decrypted_password.decode()
+    sha3_512 = hashlib.sha3_512()
+    sha3_512.update(user_input.encode())
+    hashed_user_input = sha3_512.hexdigest()
+
+    print("Checking if the entered password is correct ...")
+    return hashed_user_input == decrypted_password.decode()
