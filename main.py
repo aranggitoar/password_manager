@@ -24,8 +24,6 @@ def main():
             os.makedirs(DB_DIR)
         if SECRETS_DIR.is_dir() is False:
             os.makedirs(SECRETS_DIR)
-        if ETC_DIR.is_dir() is False:
-            os.makedirs(ETC_DIR)
         # Setup master password
         prompts.setup()
 

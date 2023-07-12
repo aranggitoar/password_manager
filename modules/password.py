@@ -8,7 +8,7 @@ import modules.prompts as prompts
 import modules.master_password as mp
 import modules.key as k
 from modules.encryption import password_encrypt, password_decrypt
-from modules.paths import DB_DIR, ETC_DIR, SECRETS_DIR
+from modules.paths import DB_DIR, SECRETS_DIR
 
 # UTF8 code points integer representations
 UTF8_CPS = list(range(128))
@@ -108,7 +108,6 @@ def get():
 def get_names():
     files = os.listdir(DB_DIR)
 
-    files.remove(ETC_DIR.parts[-1])
     files.remove(SECRETS_DIR.parts[-1])
 
     print("\nThere are passwords with the following names:")

@@ -1,48 +1,36 @@
 # Password Manager
 
-[!!] README OUTDATED.
-
 This is an **offline Command Line Interface password manager**.
 
-## Initial Setup
+## Setup
 
-1. Create your master password/secret
-2. Create a hash of your master password using `create_master_password.py`
-3. Generate a key with cryptography.fernet.Fernet.generate_key() and store
-   it in a file named `kok` ([!!] should be made into a script)
-4. Generate a key of key (or token of key) by calling `gen_key_of_key.py`
-5. Now ready to create and get passwords!
+Install requirements for running from source or bulding the source using pip
+python package installer by running, `python pip install -r requirements`. Then
+run the app with `python main.py` or build the app with `pyinstaller main.py`.
 
-## Creating and Getting Passwords
+**OR**
 
-Usage examples will be run on commands with no arguments.
+Download the [latest
+release](https://github.com/aranggitoar/password_manager/releases) and run the
+executable that's built for your OS. It is a standalone portable application.
 
-To create the password:
-`python3 ./create.py`
+## Usage
 
-To get the password:
-`python3 ./get.py`
+Simply run the app, and it will walk you through master password creation. Then
+you can start creating, modifying, and retrieving passwords. For now it will
+always ask for your master password on every creation, modification, and
+retrieval.
 
-## Functionalities as of Now
+[!!] DEMO COMING SOON.
 
-1. Create and store a hashed master password
-2. Create an encryption key using the master password
-3. One master password with two layers of security: hashed master password
-   for total authorization and the encrypted key for password encryption and
-   decryption
-4. Generate custom password with custom length or default of 42
-5. Automatic encryption on password creation and automatic decryption on
-   password retrieval using the above mentioned encryption key
-6. Retrieve a stored password
-7. Save the passwords as individual files in a default directory `db`
+## Exporting Data
 
-## Planned Functionalities
+Simply copy the directory `./db/` into the directory where you have the source
+code or executable.
 
-1. Graphical User Interface
-
-## TO DO
-
-1. Tidy up the whole source code
+Master password and master key (automatically generated on master password
+creation) is stored in `./db/.secrets/`. Passwords are stored as individual
+files by their names inside `./db/`.
 
 ## Acknowledgements
 

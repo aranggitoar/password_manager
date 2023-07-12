@@ -6,7 +6,7 @@ Full GPL-3.0 notice https://www.gnu.org/licenses/gpl-3.0.txt
 import sys, os, threading
 import modules.master_password as mp
 import modules.password as password
-from modules.paths import ETC_DIR, DB_DIR
+from modules.paths import DB_DIR
 
 # Clear console
 _cc = lambda: os.system("cls" if os.name == "nt" else "clear")
