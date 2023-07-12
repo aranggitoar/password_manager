@@ -1,10 +1,8 @@
 # Password Manager
 
+[!!] README OUTDATED.
+
 This is an **offline Command Line Interface password manager**.
-
-In real usage, compile the scripts into an executable?
-
-[!!] Related to that, maybe reduce the number of executables?
 
 ## Initial Setup
 
@@ -45,3 +43,7 @@ To get the password:
 ## TO DO
 
 1. Tidy up the whole source code
+
+## Acknowledgements
+
+ASCII text arts are courtesy of [texteditor.com](https://texteditor.com/multiline-text-art/).
