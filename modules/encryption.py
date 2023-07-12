@@ -18,27 +18,33 @@ backend = default_backend()
 iterations = 100_000
 
 
-def _derive_key(password: bytes, salt: bytes, iterations: int =
-                iterations) -> bytes:
+def _derive_key(password: bytes,
+                salt: bytes,
+                iterations: int = iterations) -> bytes:
     """Derive a secret key from a given password and salt"""
-    kdf = PBKDF2HMAC(algorithm=SHA256(), length=kdf_len, salt=salt,
-                     iterations=iterations, backend=backend)
+    kdf = PBKDF2HMAC(algorithm=SHA256(),
+                     length=kdf_len,
+                     salt=salt,
+                     iterations=iterations,
+                     backend=backend)
     return b64e(kdf.derive(password))
 
 
-def password_encrypt(message: bytes, password: str, iterations: int =
-                     iterations) -> bytes:
+def password_encrypt(message: bytes,
+                     password: str,
+                     iterations: int = iterations) -> bytes:
     salt = secrets.token_bytes(salt_len)
     key = _derive_key(password.encode(), salt, iterations)
     del password
-    return b64e(b'%b%b%b' % (salt, iterations.to_bytes(iter_repr_len,
-                                                       'big'),
-                             b64d(Fernet(key).encrypt(message))))
+    return b64e(b'%b%b%b' % (salt, iterations.to_bytes(
+        iter_repr_len, 'big'), b64d(Fernet(key).encrypt(message))))
 
 
 def password_decrypt(token: bytes, password: str) -> bytes:
     decoded = b64d(token)
-    salt, iter, token = decoded[:salt_len], decoded[salt_len:salt_len+iter_repr_len], b64e(decoded[salt_len+iter_repr_len:])
+    salt = decoded[:salt_len]
+    iter = decoded[salt_len:salt_len + iter_repr_len]
+    token = b64e(decoded[salt_len + iter_repr_len:])
     iterations = int.from_bytes(iter, 'big')
     key = _derive_key(password.encode(), salt, iterations)
     del password

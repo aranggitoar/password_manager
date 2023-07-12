@@ -5,8 +5,7 @@ Full GPL-3.0 notice https://www.gnu.org/licenses/gpl-3.0.txt
 
 import os
 import modules.prompts as prompts
-from modules.encryption import password_encrypt, password_decrypt
-from modules.paths import DB_DIR, SECRETS_DIR, ETC_DIR, ENC_PASS_FILE
+from modules.paths import DB_DIR, SECRETS_DIR, ENC_PASS_FILE
 
 
 def main():
@@ -15,7 +14,7 @@ def main():
         file = open(ENC_PASS_FILE, "r+")
         file.close()
         setup = ""
-    except:
+    except FileNotFoundError:
         setup = prompts.alert_no_master_password()
 
     if setup == "y":

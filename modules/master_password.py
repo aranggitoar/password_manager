@@ -18,7 +18,8 @@ def create(password: str):
     hashed_password = sha3_512.hexdigest()
     print("Creating hash of master password ...")
 
-    encrypted_password = password_encrypt(hashed_password.encode(), password_key)
+    encrypted_password = password_encrypt(hashed_password.encode(),
+                                          password_key)
     print("Encrypting hash of master password ...")
 
     file = open(ENC_PASS_FILE, "wb")

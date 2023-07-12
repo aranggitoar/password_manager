@@ -3,13 +3,17 @@ Copyright (C) 2023  Aranggi J. Toar <at@aranggitoar.com>
 Full GPL-3.0 notice https://www.gnu.org/licenses/gpl-3.0.txt
 """
 
-import sys, os, threading
+import sys
+import os
+import threading
 import modules.master_password as mp
 import modules.password as password
 from modules.paths import DB_DIR
 
+
 # Clear console
-_cc = lambda: os.system("cls" if os.name == "nt" else "clear")
+def _cc():
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 def _exit():
@@ -102,13 +106,13 @@ COMMANDS = {
 def login() -> bool:
     print("""
 
-  ▀██▀                       ██           
-   ██         ▄▄▄     ▄▄▄ ▄ ▄▄▄  ▄▄ ▄▄▄   
-   ██       ▄█  ▀█▄  ██ ██   ██   ██  ██  
-   ██       ██   ██   █▀▀    ██   ██  ██  
-  ▄██▄▄▄▄▄█  ▀█▄▄█▀  ▀████▄ ▄██▄ ▄██▄ ██▄ 
-                    ▄█▄▄▄▄▀               
-                                        
+  ▀██▀                       ██
+   ██         ▄▄▄     ▄▄▄ ▄ ▄▄▄  ▄▄ ▄▄▄
+   ██       ▄█  ▀█▄  ██ ██   ██   ██  ██
+   ██       ██   ██   █▀▀    ██   ██  ██
+  ▄██▄▄▄▄▄█  ▀█▄▄█▀  ▀████▄ ▄██▄ ▄██▄ ██▄
+                    ▄█▄▄▄▄▀
+
           """)
     master_password = input("Enter your master password:\n> ")
     return mp.verify(master_password)
@@ -139,7 +143,7 @@ def alert_no_master_password() -> str:
     return input("set yet, create one? (y/n)\n> ")
 
 
-def password_creation() -> str, int, str:
+def password_creation() -> (str, int, str):
     print("""
 
 ░▒█▀▀█░█▀▀▄░█▀▀░█▀▀░█░░░█░▄▀▀▄░█▀▀▄░█▀▄░░░▒█▀▀▄░█▀▀▄░█▀▀░█▀▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄
@@ -162,7 +166,7 @@ def password_creation() -> str, int, str:
     return name, int(length), master_password
 
 
-def password_retrieval() -> str, str:
+def password_retrieval() -> (str, str):
     print("""
 
 ░▒█▀▀█░█▀▀▄░█▀▀░█▀▀░█░░░█░▄▀▀▄░█▀▀▄░█▀▄░░░▒█▀▀▄░█▀▀░▀█▀░█▀▀▄░░▀░░█▀▀░▄░░░▄░█▀▀▄░█░
@@ -181,7 +185,7 @@ def password_retrieval() -> str, str:
     return name, master_password
 
 
-def password_modification() -> str, str, str, str:
+def password_modification() -> (str, str, str, str):
     print("""
 
 ░▒█▀▀█░█▀▀▄░█▀▀░█▀▀░█░░░█░▄▀▀▄░█▀▀▄░█▀▄░░░▒█▀▄▀█░▄▀▀▄░█▀▄░░▀░░█▀▀░░▀░░█▀▄░█▀▀▄░▀█▀░░▀░░▄▀▀▄░█▀▀▄
@@ -202,7 +206,7 @@ def password_modification() -> str, str, str, str:
         print("How long would you like your password to be? Default is 42.")
         length = input("Length: ")
 
-        password += " {}".format(length)
+        password = "{} {}".format(password, length)
 
     print("\nEnter your master password for authentication.")
     master_password = input("> ")
@@ -257,6 +261,9 @@ def failed_login_loop():
         if retry_prompt == "y":
             retry += 1
             passed_check = login()
+
+            if passed_check:
+                main_menu_loop()
         else:
             sys.exit(0)
 
