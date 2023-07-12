@@ -6,7 +6,8 @@ This is an **offline Command Line Interface password manager**.
 
 Install requirements for running from source or bulding the source using pip
 python package installer by running, `python pip install -r requirements`. Then
-run the app with `python main.py` or build the app with `pyinstaller main.py`.
+run the app with `python password_manager.py` or build the app with
+`pyinstaller password_manager.py`.
 
 **OR**
 
