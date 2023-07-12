@@ -22,7 +22,9 @@ you can start creating, modifying, and retrieving passwords. For now it will
 always ask for your master password on every creation, modification, and
 retrieval.
 
-[!!] DEMO COMING SOON.
+![Demo of the application.](./demo.gif)
+
+(The demo and the current application might differ a little bit.)
 
 ## Exporting Data
 
